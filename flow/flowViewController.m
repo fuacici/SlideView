@@ -15,14 +15,6 @@
 @synthesize passed;
 @synthesize arrival;
 
-- (void)dealloc
-{
-    [flow release];
-    [current release];
-    [passed release];
-    [arrival release];
-    [super dealloc];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -51,8 +43,8 @@ const static float kScale = 1.7;
         
         CABasicAnimation *theAnimation =[CABasicAnimation animationWithKeyPath:@"opacity"];
         theAnimation.duration=kAnimationTime;
-        theAnimation.fromValue=[NSNumber numberWithFloat:1.0];
-        theAnimation.toValue=[NSNumber numberWithFloat:0.5];
+        theAnimation.fromValue=@1.0f;
+        theAnimation.toValue=@0.5f;
         [_t.layer setOpacity: 1.0f];
         
         [_t.layer addAnimation:scaleAnimation forKey: @"scaleUp"];
@@ -69,8 +61,8 @@ const static float kScale = 1.7;
         
         CABasicAnimation *theAnimation =[CABasicAnimation animationWithKeyPath:@"opacity"];
         theAnimation.duration=kAnimationTime;
-        theAnimation.fromValue=[NSNumber numberWithFloat:1.0];
-        theAnimation.toValue=[NSNumber numberWithFloat:0.5];
+        theAnimation.fromValue=@1.0f;
+        theAnimation.toValue=@0.5f;
         [_t.layer setOpacity: 0.5f];
         
         CABasicAnimation * scaleAnimation =[CABasicAnimation animationWithKeyPath:@"transform"];
@@ -126,7 +118,6 @@ const static float kScale = 1.7;
     UILabel * _label = [[UILabel alloc] initWithFrame: CGRectZero];
     _label.text = [NSString stringWithFormat:@"%d",index];
     _label.font= [UIFont systemFontOfSize: 17];
-    [_label autorelease];
     return _label;
 }
 @end

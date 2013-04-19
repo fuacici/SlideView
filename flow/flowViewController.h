@@ -15,9 +15,9 @@
     UILabel *passed;
     UILabel *arrival;
 }
-@property (nonatomic, retain) IBOutlet CustomFlowView *flow;
-@property (nonatomic, retain) IBOutlet UILabel *current;
-@property (nonatomic, retain) IBOutlet UILabel *passed;
-@property (nonatomic, retain) IBOutlet UILabel *arrival;
+@property (nonatomic, strong) IBOutlet CustomFlowView *flow;
+@property (nonatomic, strong) IBOutlet UILabel *current;
+@property (nonatomic, strong) IBOutlet UILabel *passed;
+@property (nonatomic, strong) IBOutlet UILabel *arrival;
 
 @end

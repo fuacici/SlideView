@@ -31,14 +31,14 @@
     NSInteger _maxCountPerScreen;
     CGSize _itemsSize;
     CGFloat _itemSpace;
-    id<CustomFlowDataSource> dataSource;
+    id<CustomFlowDataSource> __weak dataSource;
     void (^willArriveAt)(int index);
     void (^passedItem)(int index);
     
 }
 @property (nonatomic,copy) void (^selectionChanged)(int buttonIndex);
 @property (nonatomic,assign) NSInteger selectIndex;
-@property (nonatomic,assign)IBOutlet  id<CustomFlowDataSource> dataSource;
+@property (nonatomic,weak)IBOutlet  id<CustomFlowDataSource> dataSource;
 @property (nonatomic,readonly) NSInteger numberOfItems;
 @property (nonatomic,copy) void (^willArriveAt)(int index);
 @property (nonatomic,copy)  void (^passedItem)(int index);

@@ -63,14 +63,6 @@
     _numberOfItems =1;
 }
 
-- (void)dealloc
-{
-    self.willArriveAt = nil;
-    self.selectionChanged = nil;
-    [items release];
-    [scrollView release];
-    [super dealloc];
-}
 
 /*
  // Only override drawRect: if you perform custom drawing.
@@ -189,14 +181,14 @@
 //    {
 //        return nil;
 //    }
-    UIView* _tView = [items objectAtIndex: index];
+    UIView* _tView = items[index];
     CGRect _rct = [self rectForItemAtIndex: index];
     if ([_tView isKindOfClass:[NSNull class]])
     {
         _tView = [dataSource viewForIndex: index InView: self];
         @synchronized(items)
         {
-            [items replaceObjectAtIndex: index withObject: _tView];
+            items[index] = _tView;
         }
         _tView.frame = _rct;
     }
@@ -307,7 +299,7 @@
     }
     for (int i = range.location ; (i!=range.location+range.length) && i<items.count; ++i) 
     {
-        UIView *  _t =(UIView *) [items objectAtIndex: i] ;
+        UIView *  _t =(UIView *) items[i] ;
         if([_t isKindOfClass:[UIView class]])
         {
             [_t removeFromSuperview];
@@ -318,7 +310,7 @@
         
         @synchronized(items)
         {
-            [items replaceObjectAtIndex: i withObject: [NSNull null]];
+            items[i] = [NSNull null];
         }
     }
 }

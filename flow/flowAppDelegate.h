@@ -14,8 +14,8 @@
 
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
 
-@property (nonatomic, retain) IBOutlet flowViewController *viewController;
+@property (nonatomic, strong) IBOutlet flowViewController *viewController;
 
 @end
