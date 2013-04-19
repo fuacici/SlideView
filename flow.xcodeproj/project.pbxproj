@@ -22,7 +22,7 @@
 		C8FD11D713CFCF35007A5CCB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C8FD11D513CFCF35007A5CCB /* InfoPlist.strings */; };
 		C8FD11DA13CFCF35007A5CCB /* flowTests.h in Resources */ = {isa = PBXBuildFile; fileRef = C8FD11D913CFCF35007A5CCB /* flowTests.h */; };
 		C8FD11DC13CFCF35007A5CCB /* flowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FD11DB13CFCF35007A5CCB /* flowTests.m */; };
-		C8FD11EB13CFCF8E007A5CCB /* CustomFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FD11EA13CFCF8E007A5CCB /* CustomFlowView.m */; };
+		C8FD11EB13CFCF8E007A5CCB /* JOSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FD11EA13CFCF8E007A5CCB /* JOSlideView.m */; };
 		C8FD11F513CFD2DA007A5CCB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD11F413CFD2DA007A5CCB /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,8 +57,8 @@
 		C8FD11D813CFCF35007A5CCB /* flowTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "flowTests-Prefix.pch"; sourceTree = "<group>"; };
 		C8FD11D913CFCF35007A5CCB /* flowTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = flowTests.h; sourceTree = "<group>"; };
 		C8FD11DB13CFCF35007A5CCB /* flowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = flowTests.m; sourceTree = "<group>"; };
-		C8FD11E913CFCF8E007A5CCB /* CustomFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomFlowView.h; sourceTree = "<group>"; };
-		C8FD11EA13CFCF8E007A5CCB /* CustomFlowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomFlowView.m; sourceTree = "<group>"; };
+		C8FD11E913CFCF8E007A5CCB /* JOSlideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOSlideView.h; sourceTree = "<group>"; };
+		C8FD11EA13CFCF8E007A5CCB /* JOSlideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOSlideView.m; sourceTree = "<group>"; };
 		C8FD11F413CFD2DA007A5CCB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -166,8 +166,8 @@
 		C8FD11E813CFCF8E007A5CCB /* customFlow */ = {
 			isa = PBXGroup;
 			children = (
-				C8FD11E913CFCF8E007A5CCB /* CustomFlowView.h */,
-				C8FD11EA13CFCF8E007A5CCB /* CustomFlowView.m */,
+				C8FD11E913CFCF8E007A5CCB /* JOSlideView.h */,
+				C8FD11EA13CFCF8E007A5CCB /* JOSlideView.m */,
 			);
 			path = customFlow;
 			sourceTree = "<group>";
@@ -280,7 +280,7 @@
 				C8FD11BA13CFCF35007A5CCB /* main.m in Sources */,
 				C8FD11BD13CFCF35007A5CCB /* flowAppDelegate.m in Sources */,
 				C8FD11C313CFCF35007A5CCB /* flowViewController.m in Sources */,
-				C8FD11EB13CFCF8E007A5CCB /* CustomFlowView.m in Sources */,
+				C8FD11EB13CFCF8E007A5CCB /* JOSlideView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

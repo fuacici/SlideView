@@ -33,8 +33,10 @@ const static float kScale = 1.7;
 {
     [super viewDidLoad];
     flow.dataSource = self;
+    flow.backgroundColor =[UIColor lightGrayColor];
+   /* __weak __block flowViewController * tp = self;
     flow.willArriveAt = ^(int index){
-        UIView * _t = [flow viewAtIndex: index];
+        UIView * _t = [tp.flow viewAtIndex: index];
         CABasicAnimation * scaleAnimation =[CABasicAnimation animationWithKeyPath:@"transform"];
         scaleAnimation.duration=kAnimationTime;
         scaleAnimation.fromValue=[NSValue valueWithCATransform3D:CATransform3DIdentity];
@@ -49,13 +51,13 @@ const static float kScale = 1.7;
         
         [_t.layer addAnimation:scaleAnimation forKey: @"scaleUp"];
         [_t.layer addAnimation:theAnimation forKey:@"lightOn"];
-        arrival.text = [NSString stringWithFormat:@"arrival %d", index];
+        tp.arrival.text = [NSString stringWithFormat:@"arrival %d", index];
         
     };
     flow.passedItem = ^(int index)
     {
         
-        UIView * _t = [flow viewAtIndex: index];
+        UIView * _t = [tp.flow viewAtIndex: index];
         [_t.layer removeAnimationForKey:@"scaleUp"];
         [_t.layer removeAnimationForKey:@"lightOn"];
         
@@ -75,13 +77,13 @@ const static float kScale = 1.7;
         
         [_t.layer addAnimation:scaleAnimation forKey: @"scaleDown"];
         [_t.layer addAnimation: theAnimation forKey:@"lightOff"];
-        passed.text = [NSString stringWithFormat:@"passed %d", index];
+        tp.passed.text = [NSString stringWithFormat:@"passed %d", index];
     };
     flow.selectionChanged =^(int seletion)
     {
        
-        current.text = [NSString stringWithFormat:@"selection %d", seletion];
-    };
+        tp.current.text = [NSString stringWithFormat:@"selection %d", seletion];
+    };*/
     [flow reloadData];
 }
 
@@ -105,15 +107,15 @@ const static float kScale = 1.7;
 }
 #pragma mark
 #pragma mark
-- (NSInteger)numberOfItems:(CustomFlowView*) flowView
+- (NSInteger)numberOfItems:(JOSlideView*) flowView
 {
     return 70;
 }
-- (CGSize) sizeOfItem:(CustomFlowView*) flowView
+- (CGSize) sizeOfItem:(JOSlideView*) flowView
 {
     return CGSizeMake(30, 50);
 }
-- (UIView *) viewForIndex:(NSInteger) index InView:(CustomFlowView*) flowView
+- (UIView *) viewForIndex:(NSInteger) index InView:(JOSlideView*) flowView
 {
     UILabel * _label = [[UILabel alloc] initWithFrame: CGRectZero];
     _label.text = [NSString stringWithFormat:@"%d",index];

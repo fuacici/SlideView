@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CustomFlowView.h"
+#import "JOSlideView.h"
 @interface flowViewController : UIViewController <CustomFlowDataSource>
 {
-    CustomFlowView *flow;
+    JOSlideView *flow;
     UILabel *current;
     UILabel *passed;
     UILabel *arrival;
 }
-@property (nonatomic, strong) IBOutlet CustomFlowView *flow;
+@property (nonatomic, strong) IBOutlet JOSlideView *flow;
 @property (nonatomic, strong) IBOutlet UILabel *current;
 @property (nonatomic, strong) IBOutlet UILabel *passed;
 @property (nonatomic, strong) IBOutlet UILabel *arrival;
