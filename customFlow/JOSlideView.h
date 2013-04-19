@@ -26,7 +26,7 @@
 }
 @property (nonatomic,readwrite) CGSize itemsSize;
 @property (nonatomic,readwrite) CGFloat itemSpace;
-
+@property (nonatomic) UIEdgeInsets insets;
 @property (nonatomic,readonly) NSInteger selectIndex;
 @property (nonatomic,weak)IBOutlet  id<CustomFlowDataSource> dataSource;
 @property (nonatomic,strong) void (^willArriveAt)(int index);

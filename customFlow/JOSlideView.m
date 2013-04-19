@@ -193,6 +193,7 @@
     {
         [_items addObject: [NSNull null]];
     }
+    self.contentSize = CGSizeMake(_insets.left+ _insets.right +_numberOfItems*(_itemsSize.width+ _itemSpace) - _itemSpace , _scrollView.bounds.size.height);
     [self caculateVisibleItems];
 }
 
