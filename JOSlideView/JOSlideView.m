@@ -18,6 +18,7 @@
     NSInteger _maxCountPerScreen;
     
 }
+@property (nonatomic,readwrite) CGSize itemsSize;
 @property (nonatomic) NSInteger numberOfItems;
 @property (nonatomic,strong) NSMutableSet * recycledViews;
 @property (nonatomic,strong)  UIScrollView * scrollView;
@@ -91,24 +92,25 @@
     {
         return;
     }
-    CGRect _t = self.bounds;
-    int _num =(int) floorf(_t.size.width/(_itemsSize.width + _itemSpace));
-    _maxCountPerScreen = _num;
+    
     
    
-    float _originPoint =0;
+
     float _itemRoom =_itemsSize.width+ _itemSpace;
-    int _vbegin = (int)floorf(- (_originPoint- _scrollView.contentOffset.x + _itemsSize.width)/_itemRoom);
+    float leftPoz = _scrollView.contentOffset.x;
+    float rightPoz = leftPoz + _scrollView.bounds.size.width;
+    int _vbegin = (int)floor((leftPoz - _insets.left+_itemSpace)/_itemRoom);
     _vbegin = _vbegin<0? 0: _vbegin;
-    
-    int _vEnd =(int) floorf((_scrollView.bounds.size.width+_scrollView.contentOffset.x )/_itemRoom)+1;
+    float tmp = (rightPoz - _insets.left )/_itemRoom;
+    int _vEnd =(int) floor(tmp);
     _vEnd = (_vEnd >= _numberOfItems ) ? _numberOfItems-1 : _vEnd;
-//    DebugLog(@"%d %d", _vbegin,_vEnd);
-    
+    NSRange newRange = NSMakeRange(_vbegin, _vEnd-_vbegin+1);
+    if (NSEqualRanges(_visibleItems,  newRange)) {
+        return;
+    }
     //load the  new cells
     NSRange _old = _visibleItems;
-    _visibleItems.location = _vbegin;
-    _visibleItems.length = _vEnd-_vbegin+1;
+    _visibleItems = newRange;
     NSMutableIndexSet * added = [NSMutableIndexSet indexSetWithIndexesInRange:_visibleItems];
     //only add new cells, current displayed cells don't need to be add AGAIN
     [added removeIndexesInRange: _old];
@@ -171,17 +173,16 @@
 {
     CGRect _t= CGRectZero;
     _t.size = _itemsSize;
-    _t.origin = CGPointMake( 0 +  index*(_itemsSize.width+ _itemSpace), (self.bounds.size.height-_itemsSize.height)/2.0f);
+    _t.origin = CGPointMake( _insets.left +  index*(_itemsSize.width+ _itemSpace), (self.bounds.size.height-(_insets.top+_insets.bottom) -_itemsSize.height)/2.0f+_insets.top);
     return _t;
 }
 - (void)reloadData
 {
-    _itemsSize = [dataSource sizeOfItem:self];
+    
     _numberOfItems = [dataSource numberOfItems: self];
-    if ([dataSource respondsToSelector:@selector(spaceBetweenItems:)]) 
-    {
-        _itemSpace = [dataSource spaceBetweenItems: self];
-    }
+    _itemsSize = [dataSource sizeOfItem:self];
+    
+    
   
     for (int i = _visibleItems.location ; (i!=_visibleItems.location+_visibleItems.length) && i<_items.count; ++i)
     {
@@ -249,9 +250,16 @@
 }
 - (UIView *) dequeueCell
 {
-    UIView * cell = [_recycledViews anyObject];
-    [_recycledViews removeObject:cell];
-    return cell;
+    if (_recycledViews.count>0)
+    {
+        UIView * cell = [_recycledViews anyObject];
+        [_recycledViews removeObject:cell];
+        return cell;
+    }else
+    {
+        return nil;
+    }
+    
 }
 - (void)updateVisibleItems
 {

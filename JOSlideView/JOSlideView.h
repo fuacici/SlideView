@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class JOSlideView;
-@protocol CustomFlowDataSource <NSObject>
+@protocol JOSlideViewDataSource <NSObject>
 
 - (NSInteger)numberOfItems:(JOSlideView*) flowView;
 - (CGSize) sizeOfItem:(JOSlideView*) flowView;
 - (UIView *) viewForIndex:(NSInteger) index InView:(JOSlideView*) flowView;
-@optional
-- (CGFloat) spaceBetweenItems:(JOSlideView*) flowView;
+
 
 @end
 #pragma mark
@@ -24,11 +23,11 @@
     
     
 }
-@property (nonatomic,readwrite) CGSize itemsSize;
+
 @property (nonatomic,readwrite) CGFloat itemSpace;
 @property (nonatomic) UIEdgeInsets insets;
 @property (nonatomic,readonly) NSInteger selectIndex;
-@property (nonatomic,weak)IBOutlet  id<CustomFlowDataSource> dataSource;
+@property (nonatomic,weak)IBOutlet  id<JOSlideViewDataSource> dataSource;
 @property (nonatomic,strong) void (^willArriveAt)(int index);
 @property (nonatomic,strong)  void (^passedItem)(int index);
 @property (nonatomic,strong) void (^selectionChanged)(int buttonIndex);
