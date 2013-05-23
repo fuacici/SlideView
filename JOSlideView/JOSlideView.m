@@ -21,7 +21,7 @@
 @property (nonatomic,readwrite) CGSize itemsSize;
 @property (nonatomic) NSInteger numberOfItems;
 @property (nonatomic,strong) NSMutableSet * recycledViews;
-@property (nonatomic,strong)  UIScrollView * scrollView;
+@property (nonatomic,weak)  UIScrollView * scrollView;
 @property (nonatomic,strong)  NSMutableArray * items;
 - (void) setUpInitialize;
 - (UIView*)loadViewAtIndex:(NSInteger) index;
@@ -240,8 +240,12 @@
     return _v;
 }
 
-- (void)enqueueCellAtIndex:(NSInteger) index
+-(void)enqueueCellAtIndex:(NSInteger) index
 {
+    if (_items.count <7)
+    {
+        return;
+    }
     UIView * cell = _items[index];
     NSAssert([cell isKindOfClass:[UIView class]], @"enqueued cell can't be null");
     [cell removeFromSuperview];
@@ -292,4 +296,5 @@
          self.selectIndex = selectIndex;
     }
 }
+
 @end
