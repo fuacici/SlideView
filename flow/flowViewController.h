@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JOSlideView.h"
-@interface flowViewController : UIViewController <CustomFlowDataSource>
+@interface flowViewController : UIViewController <JOSlideViewDataSource>
 {
     JOSlideView *flow;
     UILabel *current;

@@ -173,7 +173,7 @@
 {
     CGRect _t= CGRectZero;
     _t.size = _itemsSize;
-    _t.origin = CGPointMake( _insets.left +  index*(_itemsSize.width+ _itemSpace), (self.bounds.size.height-(_insets.top+_insets.bottom) -_itemsSize.height)/2.0f+_insets.top);
+    _t.origin = CGPointMake( _insets.left + _itemSpace/2.0f + index*(_itemsSize.width+ _itemSpace), (self.bounds.size.height-(_insets.top+_insets.bottom) -_itemsSize.height)/2.0f+_insets.top);
     return _t;
 }
 - (void)reloadData

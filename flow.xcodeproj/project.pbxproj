@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86E9D002199A14C400E3EBF6 /* JOSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E9D001199A14C400E3EBF6 /* JOSlideView.m */; };
 		C8FD11AD13CFCF35007A5CCB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD11AC13CFCF35007A5CCB /* UIKit.framework */; };
 		C8FD11AF13CFCF35007A5CCB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD11AE13CFCF35007A5CCB /* Foundation.framework */; };
 		C8FD11B113CFCF35007A5CCB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD11B013CFCF35007A5CCB /* CoreGraphics.framework */; };
@@ -22,7 +23,6 @@
 		C8FD11D713CFCF35007A5CCB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C8FD11D513CFCF35007A5CCB /* InfoPlist.strings */; };
 		C8FD11DA13CFCF35007A5CCB /* flowTests.h in Resources */ = {isa = PBXBuildFile; fileRef = C8FD11D913CFCF35007A5CCB /* flowTests.h */; };
 		C8FD11DC13CFCF35007A5CCB /* flowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FD11DB13CFCF35007A5CCB /* flowTests.m */; };
-		C8FD11EB13CFCF8E007A5CCB /* JOSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FD11EA13CFCF8E007A5CCB /* JOSlideView.m */; };
 		C8FD11F513CFD2DA007A5CCB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FD11F413CFD2DA007A5CCB /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		86E9D000199A14C400E3EBF6 /* JOSlideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOSlideView.h; sourceTree = "<group>"; };
+		86E9D001199A14C400E3EBF6 /* JOSlideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOSlideView.m; sourceTree = "<group>"; };
 		C8FD11A813CFCF34007A5CCB /* flow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8FD11AC13CFCF35007A5CCB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C8FD11AE13CFCF35007A5CCB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -57,8 +59,6 @@
 		C8FD11D813CFCF35007A5CCB /* flowTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "flowTests-Prefix.pch"; sourceTree = "<group>"; };
 		C8FD11D913CFCF35007A5CCB /* flowTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = flowTests.h; sourceTree = "<group>"; };
 		C8FD11DB13CFCF35007A5CCB /* flowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = flowTests.m; sourceTree = "<group>"; };
-		C8FD11E913CFCF8E007A5CCB /* JOSlideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JOSlideView.h; sourceTree = "<group>"; };
-		C8FD11EA13CFCF8E007A5CCB /* JOSlideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JOSlideView.m; sourceTree = "<group>"; };
 		C8FD11F413CFD2DA007A5CCB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -87,10 +87,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		86E9CFFF199A14C400E3EBF6 /* JOSlideView */ = {
+			isa = PBXGroup;
+			children = (
+				86E9D000199A14C400E3EBF6 /* JOSlideView.h */,
+				86E9D001199A14C400E3EBF6 /* JOSlideView.m */,
+			);
+			path = JOSlideView;
+			sourceTree = "<group>";
+		};
 		C8FD119D13CFCF34007A5CCB = {
 			isa = PBXGroup;
 			children = (
-				C8FD11E813CFCF8E007A5CCB /* customFlow */,
+				86E9CFFF199A14C400E3EBF6 /* JOSlideView */,
 				C8FD11B213CFCF35007A5CCB /* flow */,
 				C8FD11D213CFCF35007A5CCB /* flowTests */,
 				C8FD11AB13CFCF35007A5CCB /* Frameworks */,
@@ -163,15 +172,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C8FD11E813CFCF8E007A5CCB /* customFlow */ = {
-			isa = PBXGroup;
-			children = (
-				C8FD11E913CFCF8E007A5CCB /* JOSlideView.h */,
-				C8FD11EA13CFCF8E007A5CCB /* JOSlideView.m */,
-			);
-			path = customFlow;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -216,6 +216,8 @@
 /* Begin PBXProject section */
 		C8FD119F13CFCF34007A5CCB /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = C8FD11A213CFCF34007A5CCB /* Build configuration list for PBXProject "flow" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -278,9 +280,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C8FD11BA13CFCF35007A5CCB /* main.m in Sources */,
+				86E9D002199A14C400E3EBF6 /* JOSlideView.m in Sources */,
 				C8FD11BD13CFCF35007A5CCB /* flowAppDelegate.m in Sources */,
 				C8FD11C313CFCF35007A5CCB /* flowViewController.m in Sources */,
-				C8FD11EB13CFCF8E007A5CCB /* JOSlideView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

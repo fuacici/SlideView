@@ -29,11 +29,14 @@
 @property (nonatomic,readonly) NSInteger selectIndex;
 @property (nonatomic,weak)IBOutlet  id<JOSlideViewDataSource> dataSource;
 @property (nonatomic,strong) void (^willArriveAt)(int index);
-@property (nonatomic,strong)  void (^passedItem)(int index);
+@property (nonatomic,strong) void (^passedItem)(int index);
 @property (nonatomic,strong) void (^selectionChanged)(int buttonIndex);
 
 - (UIView *) viewAtIndex:(int) index;
 - (void) reloadData;
 - (CGRect)rectForItemAtIndex:(NSInteger) index;
 - (UIView *) dequeueCell;
+
+- (void)insertItemAtIndex:(NSInteger) index animated:(BOOL)animated;
+- (void)removeItemAtIndex:(NSInteger) index animated:(BOOL)animated;
 @end
