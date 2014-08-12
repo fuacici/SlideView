@@ -93,8 +93,6 @@
         return;
     }
     
-    
-   
 
     float _itemRoom =_itemsSize.width+ _itemSpace;
     float leftPoz = _scrollView.contentOffset.x;
@@ -282,9 +280,40 @@
             
         }
 
-          }
+    }
 }
-#pragma mark
+#pragma mark remove & insert
+
+- (void)insertItemAtIndex:(NSInteger) index animated:(BOOL)animated
+{
+    //add data
+    [_items insertObject:[NSNull null] atIndex:index];
+    _numberOfItems = _items.count;
+    
+    //load cell
+    
+    //push others out if is visible or ahead of them
+    if (index< _visibleItems.location+_visibleItems.length) {
+        [self updateVisibleItems];
+    }
+    
+    
+}
+- (void)removeItemAtIndex:(NSInteger) index animated:(BOOL)animated
+{
+    //remove data
+    if (_items[index]!=[NSNull null]) {
+        [self enqueueCellAtIndex: index];
+    }
+    [_items removeObjectAtIndex: index];
+    
+    //pull others in if it is visible or ahead of them
+    if (index< _visibleItems.location+_visibleItems.length) {
+        [self updateVisibleItems];
+    }
+
+}
+
 #pragma mark accessors
 - (void)setFrame:(CGRect) rect
 {
