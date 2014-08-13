@@ -9,6 +9,10 @@
 #import "flowViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
+@interface flowViewController()
+@property (nonatomic,strong) NSMutableArray * items;
+@end
+
 @implementation flowViewController
 @synthesize flow;
 @synthesize current;
@@ -35,6 +39,11 @@ const static float kScale = 1.7;
     flow.itemSpace = 60;
     flow.dataSource = self;
     flow.backgroundColor =[UIColor lightGrayColor];
+    flow.pagingEnabled = YES;
+    _items = [NSMutableArray array];
+    for (int i=0; i!=30; ++i) {
+        [_items addObject:[NSString stringWithFormat: @"test-%d",i]];
+    }
    /* __weak __block flowViewController * tp = self;
     flow.willArriveAt = ^(int index){
         UIView * _t = [tp.flow viewAtIndex: index];
@@ -107,10 +116,20 @@ const static float kScale = 1.7;
     return YES;
 }
 #pragma mark
+- (IBAction)insertOne:(id)sender
+{
+    [_items insertObject:@"new" atIndex:3];
+    [flow insertItemAtIndex:3 animated:YES];
+}
+
+- (IBAction)removeOne:(id)sender {
+    [_items removeObjectAtIndex:3];
+    [flow removeItemAtIndex: 3 animated:YES];
+}
 #pragma mark
 - (NSInteger)numberOfItems:(JOSlideView*) flowView
 {
-    return 70;
+    return _items.count;
 }
 - (CGSize) sizeOfItem:(JOSlideView*) flowView
 {
@@ -118,12 +137,19 @@ const static float kScale = 1.7;
 }
 - (UIView *) viewForIndex:(NSInteger) index InView:(JOSlideView*) flowView
 {
-    UIView * gray = [[UIView alloc] initWithFrame:CGRectMake(0, 0, flow.frame.size.width -60, 50)];
-    gray.backgroundColor = [UIColor greenColor];
-    UILabel * _label = [[UILabel alloc] initWithFrame: CGRectZero];
-    _label.text = [NSString stringWithFormat:@"%d",index];
-    _label.font= [UIFont systemFontOfSize: 17];
-    [gray addSubview: _label];
-    return gray;
+    UIView * gray = [flowView dequeueCell];
+    UILabel * _label = (UILabel*)[gray viewWithTag:20];
+    if (!gray) {
+        gray = [[UIView alloc] initWithFrame:CGRectMake(0, 0, flow.frame.size.width -60, 50)];
+        gray.backgroundColor = [UIColor greenColor];
+        
+        _label = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 240, 100)];
+        _label.tag = 20;
+        _label.font= [UIFont systemFontOfSize: 36];
+        [gray addSubview: _label];
+
+    }
+        _label.text = _items[index];
+        return gray;
 }
 @end

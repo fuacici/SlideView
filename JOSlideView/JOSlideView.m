@@ -64,6 +64,10 @@
     _scrollView.showsHorizontalScrollIndicator = NO;
     _scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     _scrollView.backgroundColor = [UIColor clearColor];
+    
+    self.clipsToBounds = YES;
+    
+    //datas
     _recycledViews =[NSMutableSet setWithCapacity:10];
     _itemSpace = 10;
     _visibleItems = NSMakeRange(0, 0);
@@ -97,9 +101,9 @@
     float _itemRoom =_itemsSize.width+ _itemSpace;
     float leftPoz = _scrollView.contentOffset.x;
     float rightPoz = leftPoz + _scrollView.bounds.size.width;
-    int _vbegin = (int)floor((leftPoz - _insets.left+_itemSpace)/_itemRoom);
+    int _vbegin = (int)floor((leftPoz - _insets.left-_itemSpace/2 +_itemSpace)/_itemRoom);
     _vbegin = _vbegin<0? 0: _vbegin;
-    float tmp = (rightPoz - _insets.left )/_itemRoom;
+    float tmp = (rightPoz - _insets.left - _itemSpace/2.0f )/_itemRoom;
     int _vEnd =(int) floor(tmp);
     _vEnd = (_vEnd >= _numberOfItems ) ? _numberOfItems-1 : _vEnd;
     NSRange newRange = NSMakeRange(_vbegin, _vEnd-_vbegin+1);
@@ -245,10 +249,13 @@
         return;
     }
     UIView * cell = _items[index];
-    NSAssert([cell isKindOfClass:[UIView class]], @"enqueued cell can't be null");
-    [cell removeFromSuperview];
-    _items[index] = [NSNull null];
-    [_recycledViews addObject: cell];
+    if ([cell isKindOfClass:[UIView class]]) {
+        [cell removeFromSuperview];
+        _items[index] = [NSNull null];
+        [_recycledViews addObject: cell];
+    }
+   
+    
 }
 - (UIView *) dequeueCell
 {
@@ -293,7 +300,11 @@
     //load cell
     
     //push others out if is visible or ahead of them
-    if (index< _visibleItems.location+_visibleItems.length) {
+    if (index<= _visibleItems.location) {
+        
+        //indices has shift by 1, a cell left in screen
+        _visibleItems.length+=1;
+        [self caculateVisibleItems];
         [self updateVisibleItems];
     }
     
@@ -308,7 +319,10 @@
     [_items removeObjectAtIndex: index];
     
     //pull others in if it is visible or ahead of them
-    if (index< _visibleItems.location+_visibleItems.length) {
+    if (index<= _visibleItems.location) {
+        //indices has shift by -=1
+        _visibleItems.location-= 1;
+        [self caculateVisibleItems];
         [self updateVisibleItems];
     }
 

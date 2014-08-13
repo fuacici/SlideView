@@ -19,5 +19,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *current;
 @property (nonatomic, strong) IBOutlet UILabel *passed;
 @property (nonatomic, strong) IBOutlet UILabel *arrival;
+- (IBAction)insertOne:(id)sender;
+- (IBAction)removeOne:(id)sender;
 
 @end
