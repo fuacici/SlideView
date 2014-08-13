@@ -313,14 +313,18 @@
     _numberOfItems = [dataSource numberOfItems: self];
     
     [self caculateContentSize];
+    CGFloat t = _scrollView.contentSize.width - _scrollView.bounds.size.width;
+    if (_scrollView.contentOffset.x > t) {
+        _scrollView.contentOffset = CGPointMake(t, _scrollView.contentOffset.y);
+    }
     
-    //pull others in if it is visible or ahead of them
+    //pull others in if it is visible or after  it
     if (index<= _visibleItems.location + _visibleItems.length-1) {
         
         //indices has shift left by 1
         NSRange effectedVisible = _visibleItems;
-        effectedVisible.location = index;
-        effectedVisible.length = _visibleItems.location + _visibleItems.length -index;
+//        effectedVisible.location = index;
+//        effectedVisible.length = _visibleItems.location + _visibleItems.length -index;
         //
         if (_visibleItems.location >= _items.count) {
             

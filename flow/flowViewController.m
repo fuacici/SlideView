@@ -121,12 +121,12 @@ const static float kScale = 1.7;
     static int t =0;
     t++;
     [_items insertObject:[NSString stringWithFormat: @"new -%d",t] atIndex:3];
-    [flow insertItemAtIndex:3 animated:YES];
+    [flow insertItemAtIndex:0 animated:YES];
 }
 
 - (IBAction)removeOne:(id)sender {
-    [_items removeObjectAtIndex:3];
-    [flow removeItemAtIndex: 3 animated:YES];
+    [_items removeObjectAtIndex:0];
+    [flow removeItemAtIndex: 0 animated:YES];
 }
 #pragma mark
 - (NSInteger)numberOfItems:(JOSlideView*) flowView
