@@ -100,18 +100,20 @@
     float _itemRoom =_itemsSize.width+ _itemSpace;
     float leftPoz = _scrollView.contentOffset.x;
     float rightPoz = leftPoz + _scrollView.bounds.size.width;
-    int _vbegin = (int)floor((leftPoz - _insets.left-_itemSpace/2 +_itemSpace)/_itemRoom);
+    int _vbegin = (int)floor((leftPoz - _insets.left-_itemSpace/2 + _itemSpace )/_itemRoom);
     _vbegin = _vbegin<0? 0: _vbegin;
-    float tmp = (rightPoz - _insets.left - _itemSpace/2.0f )/_itemRoom;
-    int _vEnd =(int) floor(tmp);
+    float tmp = (rightPoz - _insets.left - _itemSpace/2.0f  )/_itemRoom;
+    int _vEnd =(int) ceil(tmp) -1 ;
     _vEnd = (_vEnd >= _numberOfItems ) ? _numberOfItems-1 : _vEnd;
     NSRange newRange = NSMakeRange(_vbegin, _vEnd-_vbegin+1);
     if (NSEqualRanges(_visibleItems,  newRange)) {
         return;
     }
+    
     //load the  new cells
     NSRange _old = _visibleItems;
     _visibleItems = newRange;
+
     NSMutableIndexSet * added = [NSMutableIndexSet indexSetWithIndexesInRange:_visibleItems];
     //only add new cells, current displayed cells don't need to be add AGAIN
     [added removeIndexesInRange: _old];
@@ -120,11 +122,12 @@
     }];
     
     // recycle the off screen cells
-    NSMutableIndexSet * oldIndexs = [NSMutableIndexSet indexSetWithIndexesInRange:_old];
-    [oldIndexs removeIndexesInRange: _visibleItems];
-    [oldIndexs enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+    NSMutableIndexSet * offScreenIndexs = [NSMutableIndexSet indexSetWithIndexesInRange:_old];
+    [offScreenIndexs removeIndexesInRange: _visibleItems];
+    [offScreenIndexs enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         [self enqueueCellAtIndex: idx];
     }];
+    
 }
 - (void)updateCurrentIndex
 {
@@ -246,18 +249,12 @@
 
 -(void)enqueueCellAtIndex:(NSInteger) index
 {
-    if (_items.count <7)
-    {
-        return;
-    }
     UIView * cell = _items[index];
     if ([cell isKindOfClass:[UIView class]]) {
         [cell removeFromSuperview];
         _items[index] = [NSNull null];
         [_recycledViews addObject: cell];
     }
-   
-    
 }
 - (UIView *) dequeueCell
 {
@@ -276,16 +273,13 @@
 - (void)updateItemsInIndexSet:(NSIndexSet*) indexset
 {
     [indexset enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        UIView * _tView = [self loadViewAtIndex: idx];
-//        if ([_tView isKindOfClass:[UIView class]])
-//        {
-//            CGRect _rct = [self rectForItemAtIndex: idx];
-//            CGPoint _pos =CGPointMake(_rct.origin.x+_rct.size.width/2.0f, _rct.origin.y+_rct.size.height/2.0f);
-//            if (!CGPointEqualToPoint(_pos, _tView.center)  )
-//            {
-//                _tView.center = _pos;
-//            }
-//        }
+        if (idx < _visibleItems.location || idx>= _visibleItems.length + _visibleItems.location) {
+            [self enqueueCellAtIndex:idx];
+        }else
+        {
+            [self loadViewAtIndex: idx];
+        }
+        
         
     }];
 }
@@ -295,18 +289,16 @@
 {
     //add data
     [_items insertObject:[NSNull null] atIndex:index];
-    _numberOfItems = _items.count;
+    _numberOfItems = [dataSource numberOfItems: self];
     
     [self caculateContentSize];
     //push others out if is visible or ahead of them
     if (index<= _visibleItems.location + _visibleItems.length-1) {
         
-        
         NSRange effectedVisible = _visibleItems;
         //indices has shift right by 1, a cell should be pop out , but left in screen
-        effectedVisible.length +=1;
+        effectedVisible.length += 1;
         NSMutableIndexSet * indexset = [NSMutableIndexSet indexSetWithIndexesInRange: effectedVisible];
-        _visibleItems = NSMakeRange(0, 0);
         [self caculateVisibleItems];
         [self updateItemsInIndexSet:indexset];
     }
@@ -318,22 +310,26 @@
     //remove data
     [self enqueueCellAtIndex: index];
     [_items removeObjectAtIndex: index];
+    _numberOfItems = [dataSource numberOfItems: self];
+    
     [self caculateContentSize];
     
     //pull others in if it is visible or ahead of them
     if (index<= _visibleItems.location + _visibleItems.length-1) {
+        
         //indices has shift left by 1
-        
         NSRange effectedVisible = _visibleItems;
-        if (index <= _visibleItems.location) {
-            effectedVisible.location -=1;
-            effectedVisible.length+=1;
-        }else
-        {
-            effectedVisible.location = index;
-            effectedVisible.length += _visibleItems.location + _visibleItems.length;
+        effectedVisible.location = index;
+        effectedVisible.length = _visibleItems.location + _visibleItems.length -index;
+        //
+        if (_visibleItems.location >= _items.count) {
+            
+            _visibleItems.location = _items.count - _visibleItems.length;
         }
-        
+        if (effectedVisible.location + effectedVisible.length >= _items.count) {
+            effectedVisible.location = _items.count - effectedVisible.length;
+        }
+        //update effected cells
         NSMutableIndexSet * indexset = [NSMutableIndexSet indexSetWithIndexesInRange: effectedVisible];
         [self updateItemsInIndexSet:indexset];
     }

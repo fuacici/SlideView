@@ -41,7 +41,7 @@ const static float kScale = 1.7;
     flow.backgroundColor =[UIColor lightGrayColor];
     flow.pagingEnabled = YES;
     _items = [NSMutableArray array];
-    for (int i=0; i!=30; ++i) {
+    for (int i=0; i!=10; ++i) {
         [_items addObject:[NSString stringWithFormat: @"test-%d",i]];
     }
    /* __weak __block flowViewController * tp = self;
