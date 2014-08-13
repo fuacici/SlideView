@@ -26,7 +26,6 @@
 - (void) setUpInitialize;
 - (UIView*)loadViewAtIndex:(NSInteger) index;
 - (void)caculateVisibleItems;
-- (void) updateVisibleItems;
 - (void)endSelection;
 @end
 
@@ -160,15 +159,15 @@
         {
             _items[index] = _tView;
         }
-        _tView.frame = _rct;
+        
     }
     if (nil == _tView.superview)
     {
         [_scrollView addSubview: _tView];
     }
-   
+   _tView.frame = _rct;
     
-      return _tView;
+    return _tView;
     
 }
 - (CGRect)rectForItemAtIndex:(NSInteger) index
@@ -196,11 +195,14 @@
     {
         [_items addObject: [NSNull null]];
     }
-    self.contentSize = CGSizeMake(_insets.left+ _insets.right +_numberOfItems*(_itemsSize.width+ _itemSpace) - _itemSpace , _scrollView.bounds.size.height);
+    [self caculateContentSize];
     [self caculateVisibleItems];
 }
 
-
+- (void)caculateContentSize
+{
+    self.contentSize = CGSizeMake(_insets.left+ _insets.right +_numberOfItems*(_itemsSize.width+ _itemSpace) , _scrollView.bounds.size.height);
+}
 
 #pragma mark
 - (void)endSelection
@@ -270,24 +272,22 @@
     }
     
 }
-- (void)updateVisibleItems
-{
-    for (int  i = _visibleItems.location; i !=(_visibleItems.length+_visibleItems.location); ++i)
-    {
-        UIView * _tView = [self loadViewAtIndex: i];
-        if (![_tView isKindOfClass:[UIView class]]) 
-        {
-            continue;
-        }
-        CGRect _rct = [self rectForItemAtIndex: i];
-        CGPoint _pos =CGPointMake(_rct.origin.x+_rct.size.width/2.0f, _rct.origin.y+_rct.size.height/2.0f);
-        if (!CGPointEqualToPoint(_pos, _tView.center)  ) 
-        {
-            _tView.center = _pos;
-            
-        }
 
-    }
+- (void)updateItemsInIndexSet:(NSIndexSet*) indexset
+{
+    [indexset enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        UIView * _tView = [self loadViewAtIndex: idx];
+//        if ([_tView isKindOfClass:[UIView class]])
+//        {
+//            CGRect _rct = [self rectForItemAtIndex: idx];
+//            CGPoint _pos =CGPointMake(_rct.origin.x+_rct.size.width/2.0f, _rct.origin.y+_rct.size.height/2.0f);
+//            if (!CGPointEqualToPoint(_pos, _tView.center)  )
+//            {
+//                _tView.center = _pos;
+//            }
+//        }
+        
+    }];
 }
 #pragma mark remove & insert
 
@@ -297,15 +297,18 @@
     [_items insertObject:[NSNull null] atIndex:index];
     _numberOfItems = _items.count;
     
-    //load cell
-    
+    [self caculateContentSize];
     //push others out if is visible or ahead of them
-    if (index<= _visibleItems.location) {
+    if (index<= _visibleItems.location + _visibleItems.length-1) {
         
-        //indices has shift by 1, a cell left in screen
-        _visibleItems.length+=1;
+        
+        NSRange effectedVisible = _visibleItems;
+        //indices has shift right by 1, a cell should be pop out , but left in screen
+        effectedVisible.length +=1;
+        NSMutableIndexSet * indexset = [NSMutableIndexSet indexSetWithIndexesInRange: effectedVisible];
+        _visibleItems = NSMakeRange(0, 0);
         [self caculateVisibleItems];
-        [self updateVisibleItems];
+        [self updateItemsInIndexSet:indexset];
     }
     
     
@@ -313,17 +316,26 @@
 - (void)removeItemAtIndex:(NSInteger) index animated:(BOOL)animated
 {
     //remove data
-    if (_items[index]!=[NSNull null]) {
-        [self enqueueCellAtIndex: index];
-    }
+    [self enqueueCellAtIndex: index];
     [_items removeObjectAtIndex: index];
+    [self caculateContentSize];
     
     //pull others in if it is visible or ahead of them
-    if (index<= _visibleItems.location) {
-        //indices has shift by -=1
-        _visibleItems.location-= 1;
-        [self caculateVisibleItems];
-        [self updateVisibleItems];
+    if (index<= _visibleItems.location + _visibleItems.length-1) {
+        //indices has shift left by 1
+        
+        NSRange effectedVisible = _visibleItems;
+        if (index <= _visibleItems.location) {
+            effectedVisible.location -=1;
+            effectedVisible.length+=1;
+        }else
+        {
+            effectedVisible.location = index;
+            effectedVisible.length += _visibleItems.location + _visibleItems.length;
+        }
+        
+        NSMutableIndexSet * indexset = [NSMutableIndexSet indexSetWithIndexesInRange: effectedVisible];
+        [self updateItemsInIndexSet:indexset];
     }
 
 }
@@ -335,7 +347,7 @@
     {
         [super setFrame:rect];
         [self caculateVisibleItems];
-        [self updateVisibleItems];
+        [self updateItemsInIndexSet:[NSIndexSet indexSetWithIndexesInRange:_visibleItems]];
          self.selectIndex = selectIndex;
     }
 }

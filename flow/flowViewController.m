@@ -118,7 +118,9 @@ const static float kScale = 1.7;
 #pragma mark
 - (IBAction)insertOne:(id)sender
 {
-    [_items insertObject:@"new" atIndex:3];
+    static int t =0;
+    t++;
+    [_items insertObject:[NSString stringWithFormat: @"new -%d",t] atIndex:3];
     [flow insertItemAtIndex:3 animated:YES];
 }
 
