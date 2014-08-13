@@ -1,4 +1,4 @@
 SlideView
 =========
 
-Horizontal SlideView 
+Horizontal layout Cards View.
